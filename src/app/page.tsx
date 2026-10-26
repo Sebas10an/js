@@ -212,14 +212,9 @@ export default function Home() {
       for (let i = 0; i < messages.length; i++) {
         const messageId = messages[i].id;
 
-        // Show bubble first with scaling animation
-        setVisibleMessages(prev => [...prev, messageId]);
-
-        // Small delay before showing typing indicator
-        await new Promise(resolve => setTimeout(resolve, 150));
-
-        // Show typing indicator
+        // Activate typing before revealing the bubble to prevent the message flashing.
         setTypingStates(prev => ({ ...prev, [messageId]: true }));
+        setVisibleMessages(prev => [...prev, messageId]);
 
         // Natural typing duration like original - more varied
         const typingDuration = 1200 + Math.random() * 800;
